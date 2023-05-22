@@ -9,33 +9,34 @@ class BaseNode {
 };
 
 class InternalNode : public BaseNode {
-    int weight;
+    int w;
     BaseNode l;
     BaseNode r;
 
     public:
-        InternalNode(BaseNode l, BaseNode r, int w);
+        InternalNode(BaseNode ln, BaseNode rn, int we);
         BaseNode left();
         BaseNode right();
         int weight();
         bool isLeaf();
-}
+};
 
 class LeafNode : public BaseNode {
     char element;
-    int weight;
+    int w;
 
     public:
+        LeafNode(int we, char v);
         char value();
         int weight();
         bool isLeaf();
     
-}
+};
 
 
 class HuffTree {
     private:
-        Node root;
+        BaseNode r;
 
     public:
         HuffTree(char elem, int weight);
