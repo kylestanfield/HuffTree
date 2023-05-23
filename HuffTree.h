@@ -1,31 +1,32 @@
+#include <vector>
+#include <algorithm>
 #ifndef HUFFTREE
 #define HUFFTREE
 
 
 class BaseNode {
     public:
+        int w;
         int weight();
         bool isLeaf();
 };
 
 class InternalNode : public BaseNode {
-    int w;
-    BaseNode l;
-    BaseNode r;
-
-    public:
-        InternalNode(BaseNode ln, BaseNode rn, int we);
-        BaseNode left();
-        BaseNode right();
+    public:    
+        int w;
+        BaseNode* l;
+        BaseNode* r;
+        InternalNode(BaseNode* ln, BaseNode* rn, int we);
+        BaseNode* left();
+        BaseNode* right();
         int weight();
         bool isLeaf();
 };
 
 class LeafNode : public BaseNode {
-    char element;
-    int w;
-
     public:
+        char element;
+        int w;
         LeafNode(int we, char v);
         char value();
         int weight();
@@ -35,16 +36,18 @@ class LeafNode : public BaseNode {
 
 
 class HuffTree {
-    private:
-        BaseNode r;
-
     public:
+        BaseNode* r;
         HuffTree(char elem, int weight);
-        HuffTree(BaseNode l, BaseNode r, int weight);
+        HuffTree(BaseNode* l, BaseNode* r, int weight);
 
-        BaseNode root();
+        static HuffTree* buildTree(std::vector<HuffTree*>& heap);
+        BaseNode* root();
 
         int weight();
-        int Compare(const HuffTree& t);        
+        int Compare(HuffTree* t);
+        bool operator==(HuffTree* t);
+        bool operator<(HuffTree* t);
+        bool operator>(HuffTree* t);
 };
 #endif
