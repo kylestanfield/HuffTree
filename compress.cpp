@@ -34,14 +34,16 @@ int main() {
 
     vector<HuffTree*> heap;
     for (auto it = frequencies.begin(); it != frequencies.end(); it++) {
-        heap.push_back(new HuffTree(it->first, it->second));
+        HuffTree* temp = new HuffTree(it->first, it->second);
+        heap.push_back(temp);
     }
     for (auto it = heap.begin(); it < heap.end(); it++) {
-        cout << (*it)->r->w << " ";
+        cout << (*it)->weight() << " ";
     }
     cout << endl;
     make_heap(heap.begin(), heap.end());
     HuffTree* tree = HuffTree::buildTree(heap);
+    cout << tree->weight() << endl;
 
     return 0;
 }

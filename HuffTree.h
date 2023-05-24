@@ -7,8 +7,8 @@
 class BaseNode {
     public:
         int w;
-        int weight();
-        bool isLeaf();
+        virtual int weight();
+        virtual bool isLeaf() = 0;
 };
 
 class InternalNode : public BaseNode {

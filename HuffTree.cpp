@@ -12,7 +12,7 @@ InternalNode::InternalNode(BaseNode* ln, BaseNode* rn, int we) {
 }
 
 BaseNode* InternalNode::left() {
-    return (BaseNode*)(l);
+    return (BaseNode*) l;
 }
 BaseNode* InternalNode::right() {
     return (BaseNode*) r;
@@ -44,8 +44,8 @@ HuffTree::HuffTree(char elem, int weight) {
     r = new LeafNode(weight, elem);
 }
 
-HuffTree::HuffTree(BaseNode* l, BaseNode* r, int weight) {
-    r = new InternalNode(l, r, weight);
+HuffTree::HuffTree(BaseNode* le, BaseNode* ri, int weight) {
+    r = new InternalNode(le, ri, weight);
 }
 
 BaseNode* HuffTree::root() {
@@ -80,22 +80,19 @@ bool HuffTree::operator>(HuffTree* t) {
 
 HuffTree* HuffTree::buildTree(std::vector<HuffTree*>& heap) {
     std::cout << "Building Tree:\n";
-    HuffTree* tmp1;
-    HuffTree* tmp2;
-    HuffTree* tmp3;
 
     while (heap.size() > 1) {
         std::pop_heap(heap.begin(), heap.end());
-        tmp1 = heap.back();
+        HuffTree* tmp1 = heap.back();
         heap.pop_back();
 
         std::pop_heap(heap.begin(), heap.end());
-        tmp2 = heap.back();
+        HuffTree* tmp2 = heap.back();
         heap.pop_back();
 
-        tmp3 = new HuffTree((BaseNode*) tmp2, (BaseNode*) tmp1, tmp1->weight() + tmp2->weight());
+        HuffTree* tmp3 = new HuffTree(tmp2->root(), tmp1->root(), tmp1->weight() + tmp2->weight());
         heap.push_back(tmp3);
         std::push_heap(heap.begin(), heap.end());
     }
-    return tmp3;
+    return heap.back();
 }
