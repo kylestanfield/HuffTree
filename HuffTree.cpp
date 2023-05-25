@@ -75,8 +75,6 @@ bool HuffTree::operator>(HuffTree t) {
 }
 
 HuffTree HuffTree::buildTree(MinHeap<HuffTree>& heap) {
-    std::cout << "Building Tree:\n";
-
     while (heap.getSize() > 1) {
         HuffTree tmp1 = heap.extractMin();
         HuffTree tmp2 = heap.extractMin();

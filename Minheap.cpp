@@ -114,6 +114,7 @@ template <typename T> T MinHeap<T>::extractMin() {
         T root = *(arr.begin());
         arr[0] = arr[size-1];
         size--;
+        arr.pop_back();
         minHeapify(0);
         return root;
     }

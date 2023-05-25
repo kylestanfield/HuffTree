@@ -12,6 +12,7 @@ using namespace std;
 int main() {
 
     //read in file name
+    cout << "Enter the filename to be read:\n";
     string s;
     cin >> s;
     ifstream fin;
@@ -39,12 +40,8 @@ int main() {
     MinHeap<HuffTree> heap;
     for (auto it = frequencies.begin(); it != frequencies.end(); it++) {
         HuffTree temp = HuffTree(it->first, it->second);
-        cout << it->first << " " << temp.weight() << endl;
         heap.add(temp);
     }
-    cout << endl;
     HuffTree tree = HuffTree::buildTree(heap);
-    cout << tree.weight() << endl;
-
     return 0;
 }
