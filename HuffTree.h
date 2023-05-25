@@ -1,13 +1,18 @@
 #include <vector>
 #include <algorithm>
+
+#ifndef MINHEAP
+#define MINHEAP
+#include "Minheap.cpp"
+#endif
+
 #ifndef HUFFTREE
 #define HUFFTREE
 
 
 class BaseNode {
     public:
-        int w;
-        virtual int weight();
+        virtual int weight() = 0;
         virtual bool isLeaf() = 0;
 };
 
@@ -31,7 +36,6 @@ class LeafNode : public BaseNode {
         char value();
         int weight();
         bool isLeaf();
-    
 };
 
 
@@ -41,13 +45,13 @@ class HuffTree {
         HuffTree(char elem, int weight);
         HuffTree(BaseNode* l, BaseNode* r, int weight);
 
-        static HuffTree* buildTree(std::vector<HuffTree*>& heap);
+        static HuffTree buildTree(MinHeap<HuffTree>& heap);
         BaseNode* root();
 
         int weight();
-        int Compare(HuffTree* t);
-        bool operator==(HuffTree* t);
-        bool operator<(HuffTree* t);
-        bool operator>(HuffTree* t);
+        int Compare(HuffTree t);
+        bool operator==(HuffTree t);
+        bool operator<(HuffTree t);
+        bool operator>(HuffTree t);
 };
 #endif

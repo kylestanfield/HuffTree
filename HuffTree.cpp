@@ -1,10 +1,6 @@
 #include "HuffTree.h"
 #include <iostream>
 
-int BaseNode::weight() {
-    return w;
-}
-
 InternalNode::InternalNode(BaseNode* ln, BaseNode* rn, int we) {
     l = ln;
     r = rn;
@@ -56,43 +52,47 @@ int HuffTree::weight() {
     return r->weight();
 }
 
-int HuffTree::Compare(HuffTree* t) {
-    if (weight() < t->weight()) {
+int HuffTree::Compare(HuffTree t) {
+    if (weight() < t.weight()) {
         return -1;
-    } else if (weight() == t->weight()) {
+    } else if (weight() == t.weight()) {
         return 0;
     } else {
         return 1;
     }
 }
 
-bool HuffTree::operator==(HuffTree* t) {
+bool HuffTree::operator==(HuffTree t) {
     return Compare(t) == 0;
 }
 
-bool HuffTree::operator<(HuffTree* t) {
+bool HuffTree::operator<(HuffTree t) {
     return Compare(t) < 0;
 }
 
-bool HuffTree::operator>(HuffTree* t) {
+bool HuffTree::operator>(HuffTree t) {
     return Compare(t) > 0;
 }
 
-HuffTree* HuffTree::buildTree(std::vector<HuffTree*>& heap) {
+HuffTree HuffTree::buildTree(MinHeap<HuffTree>& heap) {
     std::cout << "Building Tree:\n";
 
-    while (heap.size() > 1) {
-        std::pop_heap(heap.begin(), heap.end());
-        HuffTree* tmp1 = heap.back();
-        heap.pop_back();
-
-        std::pop_heap(heap.begin(), heap.end());
-        HuffTree* tmp2 = heap.back();
-        heap.pop_back();
-
-        HuffTree* tmp3 = new HuffTree(tmp2->root(), tmp1->root(), tmp1->weight() + tmp2->weight());
-        heap.push_back(tmp3);
-        std::push_heap(heap.begin(), heap.end());
+    while (heap.getSize() > 1) {
+        HuffTree tmp1 = heap.extractMin();
+        HuffTree tmp2 = heap.extractMin();
+        int newWeight = 0;
+        if (tmp1.root()->isLeaf()) {
+            newWeight += ((LeafNode*) tmp1.root())->weight();
+        } else {
+            newWeight += ((InternalNode*) tmp1.root())->weight();
+        }
+        if (tmp2.root()->isLeaf()) {
+            newWeight += ((LeafNode*) tmp2.root())->weight();
+        } else {
+            newWeight += ((InternalNode*) tmp2.root())->weight();
+        }
+        HuffTree tmp3 = HuffTree(tmp1.root(), tmp2.root(), newWeight);
+        heap.add(tmp3);
     }
-    return heap.back();
+    return heap.peek();
 }

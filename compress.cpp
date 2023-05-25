@@ -2,6 +2,10 @@
 #include <fstream>
 #include <filesystem>
 #include "HuffTree.h"
+#ifndef MINHEAP
+#define MINHEAP
+#include "Minheap.cpp"
+#endif
 
 using namespace std;
 
@@ -32,18 +36,15 @@ int main() {
         }
     }
 
-    vector<HuffTree*> heap;
+    MinHeap<HuffTree> heap;
     for (auto it = frequencies.begin(); it != frequencies.end(); it++) {
-        HuffTree* temp = new HuffTree(it->first, it->second);
-        heap.push_back(temp);
-    }
-    for (auto it = heap.begin(); it < heap.end(); it++) {
-        cout << (*it)->weight() << " ";
+        HuffTree temp = HuffTree(it->first, it->second);
+        cout << it->first << " " << temp.weight() << endl;
+        heap.add(temp);
     }
     cout << endl;
-    make_heap(heap.begin(), heap.end());
-    HuffTree* tree = HuffTree::buildTree(heap);
-    cout << tree->weight() << endl;
+    HuffTree tree = HuffTree::buildTree(heap);
+    cout << tree.weight() << endl;
 
     return 0;
 }

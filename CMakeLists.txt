@@ -5,6 +5,10 @@ project(Huffman_Tree)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#Set debugging symbols for gdb
+set(CMAKE_BUILD_TYPE Debug)
+
+#include google test
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -15,6 +19,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_library(Tree HuffTree.cpp)
+add_library(Heap Minheap.cpp)
 add_executable(compress compress.cpp)
+
 target_link_libraries(compress PUBLIC Tree)
 target_link_libraries(compress PRIVATE "stdc++fs")
+target_link_libraries(compress PUBLIC Heap)
