@@ -1,4 +1,5 @@
 #include "HuffTree.h"
+#include <map>
 #include <iostream>
 
 InternalNode::InternalNode(BaseNode* ln, BaseNode* rn, int we) {
@@ -93,4 +94,40 @@ HuffTree HuffTree::buildTree(MinHeap<HuffTree>& heap) {
         heap.add(tmp3);
     }
     return heap.peek();
+}
+
+std::vector<bool> convertStr(std::string enc) {
+    std::vector<bool> bits;
+
+    for (int i = 0; i < enc.size(); i++) {
+        if (enc[i] == '1') {
+            bits.push_back(1);
+        } else {
+            bits.push_back(0);
+        }
+    }
+    return bits;
+}
+
+std::map<char, std::vector<bool>> HuffTree::buildTable() {
+    std::map<char, std::vector<bool>> table;
+    BaseNode* cur = r;
+    std::vector<std::pair<BaseNode*, std::string>> dfsQueue;
+    dfsQueue.push_back(std::make_pair(cur, ""));
+
+    while (dfsQueue.size() > 0) {
+        std::pair<BaseNode*, std::string> p = dfsQueue.back();
+        dfsQueue.pop_back();
+
+        cur = p.first;
+        std::string encoding = p.second;
+        
+        if (cur->isLeaf()) {
+            table[((LeafNode*) cur)->value()] = convertStr(encoding);
+        } else {
+            dfsQueue.push_back(std::make_pair(((InternalNode*) cur)->left(), encoding + "1"));
+            dfsQueue.push_back(std::make_pair(((InternalNode*) cur)->right(), encoding + "0"));
+        }
+    }
+    return table;
 }
