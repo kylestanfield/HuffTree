@@ -48,3 +48,10 @@ TEST(EndToEnd, LesMis) {
     std::string result = exec("diff les_mis.txt les_mis.d");
     EXPECT_TRUE(result == "");
 }
+
+TEST(EndToEnd, HelloNEQ) {
+    system("./compress test1.txt test1.c");
+    system("./compress test2.txt test2.c");
+    std::string result = exec("diff test1.c test2.c");
+    EXPECT_FALSE(result == "");
+}
