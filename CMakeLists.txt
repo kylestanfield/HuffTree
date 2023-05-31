@@ -20,8 +20,14 @@ FetchContent_MakeAvailable(googletest)
 
 add_library(Tree HuffTree.cpp)
 add_library(Heap Minheap.cpp)
+
 add_executable(compress compress.cpp)
+add_executable(decompress decompress.cpp)
 
 target_link_libraries(compress PUBLIC Tree)
 target_link_libraries(compress PRIVATE "stdc++fs")
 target_link_libraries(compress PUBLIC Heap)
+
+target_link_libraries(decompress PUBLIC Tree)
+target_link_libraries(decompress PRIVATE "stdc++fs")
+target_link_libraries(decompress PUBLIC Heap)
