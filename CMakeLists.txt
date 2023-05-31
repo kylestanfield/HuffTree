@@ -31,3 +31,11 @@ target_link_libraries(compress PUBLIC Heap)
 target_link_libraries(decompress PUBLIC Tree)
 target_link_libraries(decompress PRIVATE "stdc++fs")
 target_link_libraries(decompress PUBLIC Heap)
+
+enable_testing()
+
+add_executable(EndToEnd endtoend.cc)
+target_link_libraries(EndToEnd GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(EndToEnd)

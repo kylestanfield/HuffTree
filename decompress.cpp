@@ -12,10 +12,14 @@
 
 using namespace std;
 
-int main() {
-    cout << "Enter the filename to be decompressed:\n";
-    string inFile;
-    cin >> inFile;
+int main(int argc, char* argv[]) {
+    
+    if (argc != 3) {
+        cout << "Usage: ./decompress inFile outFile\n";
+        return 1;
+    }
+
+    string inFile = argv[1];
     ifstream fin;
 
     if (filesystem::exists(inFile)) {
@@ -57,12 +61,9 @@ int main() {
     HuffTree tree = HuffTree::buildTree(heap);
     map<vector<bool>, char> huffmanTable = tree.reverseTable();
     
-    cout << "Enter the filename output should be written to:\n";
-    string outFile;
-    cin >> outFile;
+    string outFile = argv[2];
     ofstream out;
     out.open(outFile);
-
 
     char buffer = 0;
     long readChars = 0;

@@ -12,12 +12,15 @@
 
 using namespace std;
 
-int main() {
-    cout << "Enter the filename to be read:\n";
-    string inputFile;
-    cin >> inputFile;
+int main(int argc, char* argv[]) {
+
+    if (argc != 3) {
+        cout << "Usage: ./compress inFile outFile\n";
+        return 1;
+    }
+
+    string inputFile = argv[1];
     ifstream fin;
-    
     // Check if file exists
     if (filesystem::exists(inputFile)) {
         fin.open(inputFile);
@@ -48,10 +51,7 @@ int main() {
     // Use Huffman Tree to make a table from element to binary code
     map<char, vector<bool>> huffmanTable = tree.buildTable();
 
-    string outFile;
-    cout << "Enter the name for the output file.\n";
-    cin >> outFile;
-
+    string outFile = argv[2];
     ofstream out;
     out.open(outFile);
 
