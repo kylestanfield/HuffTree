@@ -31,17 +31,14 @@ int main() {
     map<char, int> frequencies;
     
     // Get frequency of each ch in corpus
-    while (getline(fin, line)) {
-        int n = line.length();
-        for (int i = 0; i < n; i++) {
-            frequencies[line[i]]++;
-        }
+    char elem = 0;
+    while (fin >> noskipws >> elem) {
+        frequencies[elem]++;
     }
 
     // Use frequencies to build a MinHeap of Huffman Trees
     MinHeap<HuffTree> heap;
     for (auto it = frequencies.begin(); it != frequencies.end(); it++) {
-        cout << it->first << " " << it->second << "\n";
         HuffTree temp = HuffTree(it->first, it->second);
         heap.add(temp);
     }
@@ -64,9 +61,6 @@ int main() {
     for (auto it = frequencies.begin(); it != frequencies.end(); it++) {
         out << it->first << it->second << "\n";
     }
-    // Newline separates table from encoded data
-    out << "\n";
-    
     // Encode the text using the code table
     fin.clear();
     fin.seekg(0);
@@ -74,13 +68,9 @@ int main() {
     vector<bool> encoding;
     // Read the input again and turn it into a vector of bits
 
-    while (getline(fin, line)) {
-        int n = line.length();
-        for (int i = 0; i < n; i++) {
-            char ch = line[i];
-            vector<bool> bits = huffmanTable[ch];
-            encoding.insert(encoding.end(), bits.begin(), bits.end());
-        }
+    while (fin >> noskipws >> elem) {
+        vector<bool> bits = huffmanTable[elem];
+        encoding.insert(encoding.end(), bits.begin(), bits.end());
     }
     fin.close();
 

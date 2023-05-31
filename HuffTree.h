@@ -47,6 +47,7 @@ class HuffTree {
         HuffTree(BaseNode* l, BaseNode* r, int weight);
 
         static HuffTree buildTree(MinHeap<HuffTree>& heap);
+        std::map<std::vector<bool>, char> reverseTable();
         std::map<char, std::vector<bool>> buildTable();
         BaseNode* root();
 

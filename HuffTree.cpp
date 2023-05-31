@@ -131,3 +131,26 @@ std::map<char, std::vector<bool>> HuffTree::buildTable() {
     }
     return table;
 }
+
+std::map<std::vector<bool>, char> HuffTree::reverseTable() {
+    std::map<std::vector<bool>, char> table;
+    BaseNode* cur = r;
+    std::vector<std::pair<BaseNode*, std::string>> dfsQueue;
+    dfsQueue.push_back(std::make_pair(cur, ""));
+
+    while (dfsQueue.size() > 0) {
+        std::pair<BaseNode*, std::string> p = dfsQueue.back();
+        dfsQueue.pop_back();
+
+        cur = p.first;
+        std::string encoding = p.second;
+        
+        if (cur->isLeaf()) {
+            table[convertStr(encoding)] = ((LeafNode*) cur)->value();
+        } else {
+            dfsQueue.push_back(std::make_pair(((InternalNode*) cur)->left(), encoding + "1"));
+            dfsQueue.push_back(std::make_pair(((InternalNode*) cur)->right(), encoding + "0"));
+        }
+    }
+    return table;
+}
